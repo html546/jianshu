@@ -5,7 +5,8 @@ import { fromJS } from 'immutable';
 // immutable对象
 
 const defaultState = fromJS({
-    focused: false
+    focused: false,
+    list: []
 });
 
 export default (state = defaultState, action) => {

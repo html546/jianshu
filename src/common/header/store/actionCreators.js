@@ -5,3 +5,7 @@ export const searchFocus = () => ({
 export const searchBlur = () => ({
     type: contants.SEARCH_BLUR
 })
+export const getList = () => {
+    return (dispatch)=>{
+    }
+}
