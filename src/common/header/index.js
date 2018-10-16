@@ -21,21 +21,29 @@ class Header extends Component {
     constructor(props) {
         super(props);
     }
-    getListArea(show) {
-        if (show) {
+    getListArea() {
+        const { focused, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage } = this.props;
+        const newList = list.toJS();
+        const pageList = [];
+        if(newList.length){
+            for (let i = (page - 1) * 10; i < page * 10; i++) {
+                pageList.push(
+                    <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+                )
+            }
+        }
+        if (focused || mouseIn) {
             return (
-                <SearchInfo>
+                <SearchInfo
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
                     <SearchInfoTitle>
                         热门搜索
-                                <SearchInfoSwitch>换一批</SearchInfoSwitch>
+                                <SearchInfoSwitch onClick={()=>{handleChangePage(page,totalPage)}}>换一批</SearchInfoSwitch>
                     </SearchInfoTitle>
                     <SearchInfoList>
-                        <SearchInfoItem>教育</SearchInfoItem>
-                        <SearchInfoItem>教育</SearchInfoItem>
-                        <SearchInfoItem>教育</SearchInfoItem>
-                        <SearchInfoItem>教育</SearchInfoItem>
-                        <SearchInfoItem>教育</SearchInfoItem>
-                        <SearchInfoItem>教育</SearchInfoItem>
+                        {pageList}
                     </SearchInfoList>
                 </SearchInfo>
             )
@@ -44,6 +52,7 @@ class Header extends Component {
         }
     }
     render() {
+        const { focused, handleInputFocus, handleInputBlur } = this.props;
         return (
             <HeaderWrapper>
                 <Logo />
@@ -56,20 +65,20 @@ class Header extends Component {
                     </NavItem>
                     <SearchWrapper>
                         <CSSTransition
-                            in={this.props.focused}
+                            in={focused}
                             timeout={200}
                             classNames="slide"
                         >
                             <NavSearch
-                                onFocus={this.props.handleInputFocus}
-                                onBlur={this.props.handleInputBlur}
-                                className={this.props.focused ? 'focused' : ''}
+                                onFocus={handleInputFocus}
+                                onBlur={handleInputBlur}
+                                className={focused ? 'focused' : ''}
                             ></NavSearch>
                         </CSSTransition>
-                        <i className={this.props.focused ? 'focused iconfont' : 'iconfont'}>
+                        <i className={focused ? 'focused iconfont' : 'iconfont'}>
                             &#xe6a7;
                         </i>
-                        {this.getListArea(this.props.focused)}
+                        {this.getListArea()}
                     </SearchWrapper>
                 </Nav>
                 <Addition>
@@ -86,7 +95,11 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        focused: state.getIn(['header', 'focused'])
+        focused: state.getIn(['header', 'focused']),
+        list: state.getIn(['header', 'list']),
+        page: state.getIn(['header', 'page']),
+        totalPage: state.getIn(['header', 'totalPage']),
+        mouseIn: state.getIn(['header', 'mouseIn'])
     }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -97,6 +110,19 @@ const mapDispatchToProps = (dispatch) => {
         },
         handleInputBlur() {
             dispatch(actionCreators.searchBlur());
+        },
+        handleMouseEnter() {
+            dispatch(actionCreators.mouseEnter());
+        },
+        handleMouseLeave() {
+            dispatch(actionCreators.mouseLeave());
+        },
+        handleChangePage(page,totalPage) {
+            if(page<totalPage){
+                dispatch(actionCreators.changePage(page+1));
+            }else{
+                dispatch(actionCreators.changePage(1));
+            }
         }
     }
 }
