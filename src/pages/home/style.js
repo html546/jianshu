@@ -18,4 +18,29 @@ export const HomeLeft = styled.div`
 export const HomeRight = styled.div`
     width:240px;
     float:right;
+`;
+export const TopicWrapper = styled.div`
+    padding:20px 0 10px 0;
+    overflow:hidden;
+    margin-left:-18px;
+`;
+export const TopicItem = styled.div`
+    float:left;
+    background:#f7f7f7;
+    height:32px;
+    margin-left:18px;
+    margin-bottom:18px;
+    line-height:32px;
+    padding-right:10px;
+    font-size:14px;
+    color:#000;
+    border:1px solid #dcdcdc;
+    border-radius:4px;
+    .topic-pic{
+        display:block;
+        float:left;
+        width:32px;
+        height:32px;
+        margin-right:10px;
+    }
 `
