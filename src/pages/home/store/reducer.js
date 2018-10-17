@@ -11,7 +11,7 @@ export default (state = defaultState, action) => {
         case 'change_home_data':
             return state.merge({
                 topicList: fromJS(action.topicList),
-                acticleList: fromJS(action.articleList),
+                articleList: fromJS(action.articleList),
                 recommendList: fromJS(action.recommendList)
             })
         default:
