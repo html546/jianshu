@@ -27,4 +27,8 @@ export const getMoreList = (page) => {
             dispatch(addHomeList(result, page + 1))
         })
     }
-}
+};
+export const toggleTopShow = (show) => ({
+    type:contants.TOGGLE_SCROLL_TOP,
+    show
+})
