@@ -1,35 +1,16 @@
-import * as contants from './contants';
-import { fromJS } from 'immutable';
 import axios from 'axios';
-const changeList = (data) => ({
-    type: contants.CHANGE_LIST,
-    data: fromJS(data),
-    totalPage: Math.ceil(data.length / 10)
+import * as contants from './contants';
+const changeHomeData = (result) => ({
+    type: contants.CHANGE_HOME_DATA,
+    topicList: result.topicList,
+    articleList: result.articleList,
+    recommendList: result.recommendList
 })
-
-export const searchFocus = () => ({
-    type: contants.SEARCH_FOCUS
-})
-export const searchBlur = () => ({
-    type: contants.SEARCH_BLUR
-})
-export const mouseEnter = ()=>({
-    type:contants.MOUSE_ENTER
-})
-export const mouseLeave = ()=>({
-    type:contants.MOUSE_LEAVE
-})
-export const changePage = (page)=>({
-    type:contants.CHANGE_PAGE,
-    page
-})
-export const getList = () => {
+export const getHomeInfo = () => {
     return (dispatch) => {
-        axios.get('/api/headerList.json').then((res) => {
-            const data = res.data;
-            dispatch(changeList(data.data));
-        }).catch(() => {
-            console.log('error');
+        axios.get('/api/home.json').then((res) => {
+            const result = res.data.data;
+            dispatch(changeHomeData(result));
         })
     }
 }
