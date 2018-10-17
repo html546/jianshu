@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
-import * as contants from './contants'
+import * as contants from './contants';
+
 const defaultState = fromJS({
     title: '',
     content: ''
