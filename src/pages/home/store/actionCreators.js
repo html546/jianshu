@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as contants from './contants';
+import { fromJS } from 'immutable';
 const changeHomeData = (result) => ({
     type: contants.CHANGE_HOME_DATA,
     topicList: result.topicList,
@@ -11,6 +12,19 @@ export const getHomeInfo = () => {
         axios.get('/api/home.json').then((res) => {
             const result = res.data.data;
             dispatch(changeHomeData(result));
+        })
+    }
+};
+const addHomeList = (list, nextPage) => ({
+    type: contants.ADD_ARTICLE_LIST,
+    list: fromJS(list),
+    nextPage
+})
+export const getMoreList = (page) => {
+    return (dispatch) => {
+        axios.get('/api/homeList.json?page=' + page).then((res) => {
+            const result = res.data.data;
+            dispatch(addHomeList(result, page + 1))
         })
     }
 }
